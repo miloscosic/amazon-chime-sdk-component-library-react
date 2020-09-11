@@ -333,6 +333,30 @@ const videoGrid = {
   bgd: colors.greys.white
 };
 
+const channelList = {
+  bgd: colors.greys.white,
+  fontColor: colors.greys.grey70,
+  border: '1px solid transparent',
+  active: {
+    bgd: colors.primary.dark,
+    fontColor: colors.greys.white,
+  },
+  hover: {
+    bgd: colors.greys.grey10,
+  },
+  focus: {
+    border: `1px solid ${colors.primary.dark}`,
+    selectedBorder: `1px solid ${colors.greys.grey10}`,
+  },
+  selected: {
+    bgd: colors.primary.light,
+    fontColor: colors.greys.white,
+  },
+  iconButton: {
+    activeBgd: colors.greys.white,
+  }
+}
+
 export const lightTheme = {
   name: 'Light Theme',
   buttons,
@@ -348,6 +372,7 @@ export const lightTheme = {
   roster,
   navbar,
   videoGrid,
+  channelList,
   ...defaultTheme
 };
 

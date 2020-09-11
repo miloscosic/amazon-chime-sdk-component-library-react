@@ -265,5 +265,29 @@ declare module 'styled-components' {
       headerBorder: string;
       wrapperBgd: string;
     };
+
+    channelList: {
+      bgd: string;
+      fontColor: string;
+      border: string;
+      active: {
+        bgd: string;
+        fontColor: string;
+      },
+      hover: {
+        bgd: string;
+      },
+      focus: {
+        border: string;
+        selectedBorder: string;
+      },
+      selected: {
+        bgd: string;
+        fontColor: string;
+      },
+      iconButton: {
+        activeBgd: string;
+      }
+    }
   }
 }

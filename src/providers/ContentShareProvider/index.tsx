@@ -8,7 +8,7 @@ import React, {
   useContext,
   useEffect,
   useReducer,
-  useRef
+  useRef,
 } from 'react';
 import { DefaultModality, VideoTileState } from 'amazon-chime-sdk-js';
 
@@ -16,7 +16,7 @@ import {
   reducer,
   initialState,
   ContentShareState,
-  ContentActionType
+  ContentActionType,
 } from './state';
 import { ContentShareControlContextType } from '../../types';
 import { useAudioVideo } from '../AudioVideoProvider';
@@ -70,8 +70,8 @@ const ContentShareProvider: React.FC = ({ children }) => {
           type: ContentActionType.UPDATE,
           payload: {
             tileState,
-            isLocalUser
-          }
+            isLocalUser,
+          },
         });
       },
       videoTileWasRemoved: (tileId: number) => {
@@ -81,15 +81,15 @@ const ContentShareProvider: React.FC = ({ children }) => {
 
         dispatch({
           type: ContentActionType.REMOVE,
-          payload: tileId
+          payload: tileId,
         });
-      }
+      },
     };
 
     const contentShareObserver = {
       contentShareDidStop: () => {
         dispatch({ type: ContentActionType.DID_STOP });
-      }
+      },
     };
 
     audioVideo.addObserver(videoObserver);
@@ -117,18 +117,28 @@ const ContentShareProvider: React.FC = ({ children }) => {
     return () => window.removeEventListener('unhandledrejection', cb);
   }, [isLocalShareLoading]);
 
-  const toggleContentShare = useCallback(async (): Promise<void> => {
-    if (!audioVideo) {
-      return;
-    }
+  const toggleContentShare = useCallback(
+    async (mediaUrl?: string): Promise<void> => {
+      if (!audioVideo) {
+        return;
+      }
 
-    if (isLocalUserSharing || isLocalShareLoading) {
-      audioVideo.stopContentShare();
-    } else {
-      audioVideo.startContentShareFromScreenCapture();
-      dispatch({ type: ContentActionType.STARTING });
-    }
-  }, [audioVideo, isLocalUserSharing, isLocalShareLoading]);
+      if (isLocalUserSharing || isLocalShareLoading) {
+        audioVideo.stopContentShare();
+      } else {
+        if (mediaUrl) {
+          dispatch({
+            type: ContentActionType.UPDATE_MEDIA_URL,
+            payload: { mediaUrl },
+          });
+        } else {
+          audioVideo.startContentShareFromScreenCapture();
+        }
+        dispatch({ type: ContentActionType.STARTING });
+      }
+    },
+    [audioVideo, isLocalUserSharing, isLocalShareLoading]
+  );
 
   const togglePauseContentShare = useCallback((): void => {
     if (!audioVideo || !isLocalUserSharing) {
@@ -150,14 +160,14 @@ const ContentShareProvider: React.FC = ({ children }) => {
       isLocalUserSharing,
       isLocalShareLoading,
       toggleContentShare,
-      togglePauseContentShare
+      togglePauseContentShare,
     }),
     [
       paused,
       toggleContentShare,
       togglePauseContentShare,
       isLocalUserSharing,
-      isLocalShareLoading
+      isLocalShareLoading,
     ]
   );
 

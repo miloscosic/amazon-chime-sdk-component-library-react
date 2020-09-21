@@ -307,7 +307,11 @@ const controlBar = {
   shadow: shadows.large,
   bgd: colors.greys.white,
   border: `0.03125rem solid ${colors.greys.grey20}`,
-  opacity: 0.95
+  opacity: 0.95,
+  active: {
+    text: buttons.primary.active.text,
+    bgd: buttons.primary.active.bgd,
+  },
 };
 
 const roster = {
